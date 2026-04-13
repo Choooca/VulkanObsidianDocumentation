@@ -1,3 +1,0 @@
-# VulkanObsidianDocumentation
-# VulkanObsidianDocumentation
-# VulkanObsidianDocumentation
