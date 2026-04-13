@@ -52,4 +52,4 @@ On stocke ici l'indice de [[Queue Families]] car ensuite le [[VkDevice]] en aura
 
 Ressources : 
 -  [Vulkan Tutorial](https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Physical_devices_and_queue_families)
--  [[vkspec.pdf#page=255|Spécification Vulkan - 5.3 Queue]]
+-  [Spécification Vulkan - 5.3 Queue](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#devsandqueues-queues)

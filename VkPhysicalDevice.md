@@ -42,4 +42,4 @@ Nous n'avons pas besoin de le détruire, il se détruit implicitement avec la de
 
 Ressources  : 
 - [Vulkan Tutorial](https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Physical_devices_and_queue_families)
--  [[vkspec.pdf#page=167|Spécification Vulkan - 5.1 Physical Device]]
+-  [Spécification Vulkan - 5.1 Physical Device](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#devsandqueues-physical-device-enumeration)

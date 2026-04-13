@@ -34,4 +34,4 @@ La [[VkInstance]] doit être créée en première et détruite en dernière, car
 
 Ressources :
 - [Vulkan Tutorial](https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Instance)
-- [[vkspec.pdf#page=149|Spécification Vulkan - 4.2 Instance]]
+- [Spécification Vulkan - 4.2 Instance](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#initialization-instances)

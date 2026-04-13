@@ -91,4 +91,4 @@ Avec :
 
 Ressources : 
 - [Vulkan Tutorial](https://vulkan-tutorial.com/Drawing_a_triangle/Setup/Logical_device_and_queues)
-- [[vkspec.pdf#page=227|Spécification Vulkan - 5.2 Device]]
+- [Spécification Vulkan - 5.2 Device](https://registry.khronos.org/vulkan/specs/latest/html/vkspec.html#devsandqueues-devices)
