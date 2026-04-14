@@ -1,6 +1,6 @@
-Vulkan est une API Agnostique, il ne peut alors pas interagir avec la Window par lui même. Nous devons donc utiliser une [[Extensions]] WSI (Window System Integration), en l'occurrence `VK_KHR_surface` qui nous permet alors d'avoir une [[VkSurfaceKHR]]
+Vulkan est une API Agnostique, il ne peut pas interagir directement avec le système de fenêtrage. Nous devons donc utiliser une [[Extensions]] WSI (Window System Integration), en l'occurrence `VK_KHR_surface` qui nous permet alors d'avoir une [[VkSurfaceKHR]]
 
-Une [[VkSurfaceKHR]] est une abstraction représentant la zone de notre fenêtre ou notre image sera rendue.
+Une [[VkSurfaceKHR]] est une abstraction représentant la zone de notre fenêtre où notre image sera rendue.
 
 Normalement le setup peut être un peu compliqué dû au fait que la surface dépend de l'OS utilisé. Mais GLFW gère ça pour nous.
 Nous pouvons alors simplement : 

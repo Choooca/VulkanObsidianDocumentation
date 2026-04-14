@@ -144,7 +144,7 @@ actual_extent.width = std::clamp(actual_extent.width, capabilities.minImageExten
 actual_extent.height = std::clamp(actual_extent.height, capabilities.minImageExtent.height, capabilities.maxImageExtent.height);
 ```
 
-On clamp ensuite pour  être sûr que c'est bien dans les limites permises dans notre implémentation.
+On clamp ensuite pour  être sûr que c'est bien dans les limites permises par notre implémentation.
 
 Maintenant que nous avons nos spécifications (`VkSurfaceFormatKHR`, `VkPresentModeKHR`, et `VkExtent2D`) nous pouvons créer la [[VkSwapchainKHR]]. 
 
@@ -191,13 +191,13 @@ Avec :
 - `VkPresentModeKHR presentMode` : Le `VkPresentModeKHR` déterminé plus haut.
 - `VkBool32 clipped`  : Si les pixels cachés (par une autre fenêtre par exemple) doivent être ignorés (donc pas calculés) ou non. Souvent mis à VK_TRUE pour gagner des performances.
 - `VkCompositeAlphaFlagBitsKHR compositeAlpha` : Si notre fenêtre blend avec les autres ou non (souvent laissé à `VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR`)
-- `VkSurfaceTransformFlagBitsKHR preTransform` : Si on doit appliquer une transformation à une image. Si l'on en veut aucune, nous pouvons assigner ce paramètre au `.currentTransform` du `VkSurfaceCapabilitiesKHR` déterminé plus haut.
+- `VkSurfaceTransformFlagBitsKHR preTransform` : Si on doit appliquer une transformation à une image. Si l'on n'en veut aucune, nous pouvons assigner ce paramètre au `.currentTransform` du `VkSurfaceCapabilitiesKHR` déterminé plus haut.
 - `VkSwapchainKHR oldSwapchain` : L'ancienne [[VkSwapchainKHR]]. Utile lors de la recréation de [[VkSwapchainKHR]] par exemple lors du resize d'une fenêtre. Elle permet notamment à Vulkan de réutiliser les ressources existantes
 
 On doit ensuite spécifier comment sont gérées les images qui seront utilisées dans plusieurs [[Queue Families]]. Par exemple dessiner une image via la `Graphics Queue` et la présenter à l'écran via la `Presentation Queue`. Ce n'est pas nécessaire dans tous les cas, par exemple si la [[Queue Families]] supportant la `Graphics Queue` supporte également la `Presentation Queue`.
 
 Dans le cas contraire il y a deux modes :
-- `VK_SHARING_MODE_EXCLUSIVE` : Une image est détenue par une seule [[Queue Families]]  et dont la propriété doit être explicitement transférée.
+- `VK_SHARING_MODE_EXCLUSIVE` : Une image est détenue par une seule [[Queue Families]] et le transfert de propriété (ownership transfer) doit être fait explicitement
 - `VK_SHARING_MODE_CONCURRENT` : Une image peut être utilisée en même temps par plusieurs [[Queue Families]].
 
 En se référant à la structure `QueueFamilyIndices` du chapitre [[Queue Families]] : 
@@ -254,3 +254,5 @@ vkGetSwapchainImagesKHR(
 ```
 
 Il est également utile de stocker le `VkFormat` et le `VkExtent2D` pour les étapes suivantes.
+
+Les  `VkImage2D` n'ont pas besoin d'être détruite explicitement, elles le sont avec lors de la destruction de la [[VkSwapchainKHR]].

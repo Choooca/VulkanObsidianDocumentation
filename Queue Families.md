@@ -1,4 +1,4 @@
-Dans Vulkan toutes les opérations (upload de textures, dessiner un triangle etc.) nécessite des  commandes qui seront envoyées dans une queue. Il y a différents types de queue qui sont contenus dans différentes [[Queue Families]] et qui autorisent seulement certaines commandes. Par exemple certaines queue permettent seulement des commandes graphiques et d'autres seulement des transferts de mémoire.
+Dans Vulkan toutes les opérations (upload de textures, dessiner un triangle etc.) nécessitent des  commandes qui seront envoyées dans une queue. Il existe différents types de queues, regroupés en [[Queue Families]], chacune n'autorisant que certains types de commandes. Par exemple certaines queue permettent seulement des commandes graphiques et d'autres seulement des transferts de mémoire.
 
 Pour sélectionner le [[VkPhysicalDevice]] nous devons vérifier si les [[Queue Families]] nécessaires à notre application sont disponibles.
 
@@ -23,7 +23,7 @@ Nous avons alors dans nos `VkQueueFamilyProperties`:
 - `VkQueueFlags queueFlags` : BitMask indiquant les types de commandes supportées par la [[Queue Families]].
 - `uint32_t queueCount` : Nombre de queues
 
-Après les avoir récupérées on peut vérifier si on a toutes les queues nécessaires à notre application, nous pouvons le faire de cette manière. 
+Après les avoir récupérées on peut vérifier si on a toutes les queues nécessaires à notre application. Nous pouvons vérifier de cette manière. 
 
 ```cpp
 struct QueueFamilyIndices {

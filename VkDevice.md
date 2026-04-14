@@ -1,4 +1,4 @@
-Le [[VkDevice]] (ou logical device) est le composant nous permettant d'interfacer le [[VkPhysicalDevice]]. 
+Le [[VkDevice]] (ou logical device) est le composant nous permettant de communiquer avec le [[VkPhysicalDevice]]. 
 
 Dans un premier temps pour la création du [[VkDevice]] nous devons créer les queues nécessaires en fonction des [[Queue Families]] demandées.
 
@@ -6,8 +6,8 @@ En se référant au code pour récupérer les [[Queue Families]] nous pouvons cr
 ```cpp
 std::vector<VkDeviceQueueCreateInfo> queue_create_infos;
 std::set<uint32_t> unique_queue_families = {
-	indices.graphics_family.value(),
-	indices.present_family.value()
+	indices.queue_family_one.value(),
+	indices.queue_family_two.value()
 	};
 
 float queue_priority = 1.0f;
@@ -72,7 +72,7 @@ void vkDestroyDevice(
 );
 ```
 
-Maintenant, les queue sont créées, donc afin de stocker les handles de ces queues :
+Maintenant, les queues sont créées, donc afin de stocker les handles de ces queues :
 
 ```cpp
 void vkGetDeviceQueue( 

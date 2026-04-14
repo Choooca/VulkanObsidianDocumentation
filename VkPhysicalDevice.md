@@ -1,4 +1,4 @@
-Notre machine peut posséder plusieurs cartes graphiques (GPU, celle intégrée au CPU etc.). Nous devons donc sélectionner celle la plus appropriée pour notre programme. Des cartes graphiques peuvent supporter certaines extensions et d'autres non. Par exemple elles peuvent intégrer ou non des [[Queue Families]] spécifiques.
+Notre machine peut posséder plusieurs cartes graphiques (GPU, celle intégrée au CPU etc.). Nous devons donc sélectionner le plus appropriée pour notre programme. Chaque GPU peut supporter des [[Extensions]] et des [[Queue Families]] différentes
 
 Pour récupérer tous les [[VkPhysicalDevice]] disponibles nous pouvons utiliser : 
 

@@ -1,4 +1,4 @@
-Les [[Message Callback]] permettent de gérer manuellement les output des [[Validation Layers]]. Grâce à cela, nous pouvons par exemple trier le type de message qu'on affiche, ou comment on les affiche.
+Les [[Message Callback]] permettent de gérer manuellement les output des [[Validation Layers]]. Grâce à cela, nous pouvons par exemple trier le type de messages qu'on affiche, ou comment on les affiche.
 
 Pour setup le callback nous devons activer l'[[Extensions]] `VK_EXT_debug_utils`
 
@@ -42,21 +42,11 @@ VkResult CreateDebugUtilsMessengerEXT(
 }
 ```
 
-Grâce à ça nous pouvons appeler : 
-```cpp
-CreateDebugUtilsMessengerEXT(
-	VkInstance instance,
-	const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo,
-	const VkAllocationCallbacks* pAllocator,
-	VkDebugUtilsMessengerEXT* pDebugMessenger
-	)
-```
-
 Avec : 
 - `VkInstance instance` : [[VkInstance]] de notre application
 - `const VkDebugUtilsMessengerCreateInfoEXT *pCreateInfo` : structure de création avec :
 	- `VkStructureType sType` : le type de la structure
-	- `VkDebugUtilsMessageSeverityFlagsEXT messageSeverity` : le sévérité que nous allons écouter
+	- `VkDebugUtilsMessageSeverityFlagsEXT messageSeverity` : la sévérité que nous allons écouter
 	- `VkDebugUtilsMessageTypeFlagsEXT messageType` : le type de message que nous allons écouter
 	- `PFN_vkDebugUtilsMessengerCallbackEXT pfnUserCallback` : notre fonction callback
 - `const VkAllocationCallbacks* pAllocator` : custom allocator 
@@ -84,6 +74,10 @@ void DestroyDebugUtilsMessengerEXT(
 Avec les mêmes paramètres déjà expliqués pour la création.
 
 Ca marche déjà mais nous pouvons passer le debug_create_info au `.pNext` à la création de la [[VkInstance]] pour détecter les erreurs lors de la création et destruction de l'instance.
+
+```cpp
+instanceinfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debug_create_info;
+```
 
 La destruction de l'handle doit se faire avant la destruction du [[VkInstance]].
 
