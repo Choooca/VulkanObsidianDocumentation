@@ -3,7 +3,7 @@ La [[Graphics Pipeline]] est la séquence d'opérations transformant les donnée
 
 ![[vulkan_simplified_pipeline.jpg]]
 
-Dans la [[Graphics Pipeline]] il y a deux type d'étape :
+Dans la [[Graphics Pipeline]] il y a deux types d'étapes :
 
 - Les fixed-functions, ce sont des étapes, comme le `Color blending`, qui sont prédéfinies mais qu'on peut configurer à l'aide de paramètres. Elles sont notées en verte sur le schéma.
 - Les programmable, ce sont les étapes, comme le `Fragment shader`, où l'utilisateur peut upload son propre code et donc programmer son propre comportement. Elles sont notées en orange sur le schéma.
@@ -100,7 +100,7 @@ VkPipelineShaderStageCreateInfo shader_stages[] =
 	{ vert_shader_stage_info, frag_shader_stage_info };
 ```
 
-## Viewport And Scissors
+## Viewport And Scissor
 
 Le `Viewport` représente la zone du [[Framebuffer]] dans laquelle nous allons dessiner. Ce sera souvent entre `(0, 0)` et `(width, height)`.
 
@@ -174,10 +174,10 @@ rasterization_create_info.depthBiasSlopeFactor = 0.0f;
 
 Avec : 
 - `VkStructureType sType` : Le type de la structure
-- `VkBool32 depthClampEnable` : Si `VK_TRUE`, les fragments en dehors du near/far plane sont clampé au lieu d'être discard. Peut être utile dans des cas comme une `Shadow Map`. Nécessite l'activation d'une feature GPU
+- `VkBool32 depthClampEnable` : Si `VK_TRUE`, les fragments en dehors du near/far plane sont clampés au lieu d'être discard. Peut être utile dans des cas comme une `Shadow Map`. Nécessite l'activation d'une feature GPU
 - `VkBool32 rasterizerDiscardEnable` : Si le paramètre est mis à `VK_TRUE`, discard tous les pixels. Cela résulte en aucun output dans le [[Framebuffer]].
 - `VkPolygonMode polygonMode` : Spécifie comment les fragments sont dessinés, il y a trois options : `VK_POLYGON_MODE_FILL` remplit la  zone avec des pixels, `VK_POLYGON_MODE_LINE` trace des lignes entre les vertices, `VK_POLYGON_MODE_POINT` dessine uniquement des points sur les vertices.
-- `float lineWidth` : Largeur des lignes, si supérieur à 1, nécessite l'activation d'une feature GPU.
+- `float lineWidth` : Largeur des lignes, si supérieure à 1, nécessite l'activation d'une feature GPU.
 - `VkCullModeFlags cullMode` : Définit le type de `Face Culling` voulu (front, back, ou désactivé).
 - `VkFrontFace frontFace` : Spécifie l'ordre des vertices représentant les front faces (clockwise ou counter-clockwise)
 - `VkBool32 depthBiasEnable` : Active le `Depth Bias` ou non, utile pour les `Shadow Map`.
@@ -224,18 +224,18 @@ Dans un premier temps nous devons définir un `VkPipelineColorBlendAttachmentSta
 
 ```cpp
 VkPipelineColorBlendAttachmentState color_blend_attachment{};
-color_blend_attachement.colorWriteMask = 
+color_blend_attachment.colorWriteMask = 
 	VK_COLOR_COMPONENT_R_BIT |
 	VK_COLOR_COMPONENT_G_BIT |
 	VK_COLOR_COMPONENT_B_BIT |
 	VK_COLOR_COMPONENT_A_BIT;
-color_blend_attachement.blendEnable = VK_TRUE;
-color_blend_attachement.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
-color_blend_attachement.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
-color_blend_attachement.colorBlendOp = VK_BLEND_OP_ADD;
-color_blend_attachement.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
-color_blend_attachement.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
-color_blend_attachement.alphaBlendOp = VK_BLEND_OP_ADD;
+color_blend_attachment.blendEnable = VK_TRUE;
+color_blend_attachment.srcColorBlendFactor = VK_BLEND_FACTOR_SRC_ALPHA;
+color_blend_attachment.dstColorBlendFactor = VK_BLEND_FACTOR_ONE_MINUS_SRC_ALPHA;
+color_blend_attachment.colorBlendOp = VK_BLEND_OP_ADD;
+color_blend_attachment.srcAlphaBlendFactor = VK_BLEND_FACTOR_ONE;
+color_blend_attachment.dstAlphaBlendFactor = VK_BLEND_FACTOR_ZERO;
+color_blend_attachment.alphaBlendOp = VK_BLEND_OP_ADD;
 ```
 
 Avec : 
@@ -253,7 +253,7 @@ color_blending_create_info.sType =
 color_blending_create_info.logicOpEnable = VK_FALSE;
 color_blending_create_info.logicOp = VK_LOGIC_OP_COPY;
 color_blending_create_info.attachmentCount = 1;
-color_blending_create_info.pAttachments = &color_blend_attachement;
+color_blending_create_info.pAttachments = &color_blend_attachment;
 color_blending_create_info.blendConstants[0] = 0.0f;
 color_blending_create_info.blendConstants[1] = 0.0f;
 color_blending_create_info.blendConstants[2] = 0.0f;
@@ -268,7 +268,7 @@ Avec :
 
 ## Pipeline Layout
 
-Le `Pipeline Layout` sert à définir quelle valeurs `uniform` seront passées au runtime (matrices, textures etc.). 
+Le `Pipeline Layout` sert à définir quelles valeurs `uniform` seront passées au runtime (matrices, textures etc.). 
 
 ```cpp
 VkPipelineLayoutCreateInfo pipeline_layout_create_info{};
@@ -285,7 +285,44 @@ if (vkCreatePipelineLayout(m_device, &pipeline_layout_create_info, nullptr, &m_p
 
 Sous partie à développer plus tard.
 
-On doit détruire l'handle à la fin : 
+On doit détruire l'handle à la fin de notre programme : 
 ```cpp
 vkDestroyPipelineLayout(m_device, m_pipeline_layout, nullptr);
+```
+
+On peut enfin créer la [[Graphics Pipeline]] en utilisant également le [[Render Pass]]: 
+
+```cpp
+VkGraphicsPipelineCreateInfo pipeline_create_info{};
+pipeline_create_info.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
+pipeline_create_info.stageCount = 2;
+pipeline_create_info.pStages = shader_stages;
+pipeline_create_info.pVertexInputState = &vertex_input_info;
+pipeline_create_info.pInputAssemblyState = &input_assembly_create_info;
+pipeline_create_info.pViewportState = &viewport_state_create_info;
+pipeline_create_info.pRasterizationState = &rasterization_create_info;
+pipeline_create_info.pMultisampleState = &multisampling_create_info;
+pipeline_create_info.pDepthStencilState = nullptr;
+pipeline_create_info.pColorBlendState = &color_blending_create_info;
+pipeline_create_info.pDynamicState = &dynamic_state_create_info;
+pipeline_create_info.layout = m_pipeline_layout;
+pipeline_create_info.renderPass = m_render_pass;
+pipeline_create_info.subpass = 0;
+
+vkCreateGraphicsPipelines(
+	m_device,
+	VK_NULL_HANDLE,
+	1,
+	&pipeline_create_info,
+	nullptr,
+	&m_graphics_pipeline
+);
+```
+
+Le seul paramètre pour l'instant nécessaire à développer est `subpass` étant l'index du `Sub Pass` du [[Render Pass]] auquel cette pipeline est associée. Un [[Graphics Pipeline]] est créée pour un `Sub Pass` bien qu'un `Sub Pass` puisse être référencé par plusieurs [[Graphics Pipeline]] (par exemple une pour les opaques une autre pour les transparents).
+
+et il doit être détruit avant le `Pipeline Layout` : 
+
+```cpp
+vkDestroyPipeline(m_device, m_graphics_pipeline, nullptr);
 ```
